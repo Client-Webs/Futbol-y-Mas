@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administración | Fresh Football</title>
+    <meta name="description" content="Panel de administración y gestión para Fresh Football." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#08090c] text-slate-100 flex flex-col min-h-screen">
+    <header></header>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+      <!-- Loading / Auth Verification State -->
+      <div id="auth-checking-state" class="py-24 text-center space-y-4">
+        <div class="w-10 h-10 border-2 border-neon border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p class="text-xs text-slate-400 font-semibold tracking-wide uppercase">Verificando autorización de seguridad...</p>
+      </div>
+
+      <!-- Unauthorized Alert Box (if not admin) -->
+      <div id="unauthorized-box" class="hidden fresh-card p-8 sm:p-12 text-center space-y-4 max-w-lg mx-auto border-red-500/30">
+        <div class="w-14 h-14 rounded-2xl bg-red-500/10 text-red-400 border border-red-500/30 flex items-center justify-center mx-auto text-2xl font-bold">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        </div>
+        <h2 class="text-xl font-black text-white">Acceso Restringido</h2>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Esta sección está reservada exclusivamente para el equipo de administración de Fresh Football. Tu cuenta no cuenta con permisos suficientes.
+        </p>
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href="/index.html" class="btn-secondary text-xs w-full sm:w-auto">Volver al Inicio</a>
+          <a href="/login.html" class="btn-neon text-xs w-full sm:w-auto">Iniciar Sesión con otra cuenta</a>
+        </div>
+      </div>
+
+      <!-- Admin Dashboard Main Layout (Hidden until verified) -->
+      <div id="admin-dashboard" class="hidden space-y-6">
+        <!-- Admin Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#232838] pb-6">
+          <div>
+            <div class="inline-flex items-center gap-2 text-[11px] font-bold text-neon uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-neon"></span>
+              <span>Administración Activa · Datos Reales Supabase</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-black text-white">Panel de Control</h1>
+          </div>
+        </div>
+
+        <!-- Real-time Dashboard Stats from Supabase -->
+        <div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-3" id="admin-stats-grid">
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Usuarios</span>
+            <span id="stat-users" class="text-lg font-black text-neon tabular-nums">0</span>
+          </div>
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Equipos</span>
+            <span id="stat-teams" class="text-lg font-black text-neon tabular-nums">0</span>
+          </div>
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Noticias</span>
+            <span id="stat-news" class="text-lg font-black text-white tabular-nums">0</span>
+          </div>
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Partidos</span>
+            <span id="stat-matches" class="text-lg font-black text-neon tabular-nums">0</span>
+          </div>
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Comentarios</span>
+            <span id="stat-comments" class="text-lg font-black text-white tabular-nums">0</span>
+          </div>
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Debates</span>
+            <span id="stat-debates" class="text-lg font-black text-white tabular-nums">0</span>
+          </div>
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Encuestas</span>
+            <span id="stat-polls" class="text-lg font-black text-white tabular-nums">0</span>
+          </div>
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Memes</span>
+            <span id="stat-memes" class="text-lg font-black text-white tabular-nums">0</span>
+          </div>
+          <div class="fresh-card p-3 text-center border-[#232838]">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Trivials</span>
+            <span id="stat-trivia" class="text-lg font-black text-neon tabular-nums">0</span>
+          </div>
+        </div>
+
+        <!-- Admin Navigation Tabs -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-[#232838] scrollbar-none" id="admin-tabs">
+          <button data-tab="news" class="px-3.5 py-2 text-xs font-bold rounded-lg bg-neon text-black whitespace-nowrap">Noticias</button>
+          <button data-tab="teams" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Equipos</button>
+          <button data-tab="matches" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Resultados</button>
+          <button data-tab="standings" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Clasificación</button>
+          <button data-tab="users" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Usuarios</button>
+          <button data-tab="polls" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Encuestas</button>
+          <button data-tab="debates" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Debates</button>
+          <button data-tab="comments" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Comentarios</button>
+          <button data-tab="porras" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Porras</button>
+          <button data-tab="trivia" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Trivial</button>
+          <button data-tab="memes" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Memes</button>
+          <button data-tab="supabase" class="px-3.5 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white whitespace-nowrap">Supabase SQL</button>
+        </div>
+
+        <!-- 1. TAB: NOTICIAS -->
+        <div id="tab-news-content" class="space-y-6">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-white">Gestión de Noticias</h3>
+            <button id="btn-show-create-news" class="btn-neon text-xs py-2 px-3">+ Nueva Noticia</button>
+          </div>
+
+          <!-- Create/Edit News Form -->
+          <div id="news-form-box" class="hidden fresh-card p-5 space-y-4 border-neon/40">
+            <h4 class="text-sm font-bold text-white" id="news-form-title">Crear Noticia</h4>
+            <form id="admin-news-form" class="space-y-4">
+              <input type="hidden" id="edit-news-id" />
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Título</label>
+                <input type="text" id="news-form-title-input" required class="fresh-input text-xs" />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Categoría</label>
+                  <select id="news-form-category" class="fresh-input text-xs">
+                    <option value="Noticias">Noticias</option>
+                    <option value="Fichajes">Fichajes</option>
+                    <option value="Rumores">Rumores</option>
+                    <option value="LaLiga">LaLiga</option>
+                    <option value="Otros">Otros</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">URL de Imagen</label>
+                  <input type="text" id="news-form-image" placeholder="https://..." class="fresh-input text-xs" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Entradilla / Resumen</label>
+                <input type="text" id="news-form-excerpt" placeholder="Breve resumen de 1-2 líneas" class="fresh-input text-xs" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Contenido completo</label>
+                <textarea id="news-form-content" rows="6" required class="fresh-input text-xs resize-none"></textarea>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="news-form-published" checked class="rounded border-slate-700 text-neon" />
+                <label for="news-form-published" class="text-xs text-slate-300">Publicada de inmediato</label>
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="news-form-cancel" class="btn-secondary text-xs">Cancelar</button>
+                <button type="submit" class="btn-neon text-xs">Guardar Noticia</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- News Table -->
+          <div class="fresh-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="bg-[#0a0c12] border-b border-[#232838] text-slate-400 font-bold uppercase text-[10px]">
+                    <th class="py-3 px-4">Título</th>
+                    <th class="py-3 px-3">Categoría</th>
+                    <th class="py-3 px-3">Estado</th>
+                    <th class="py-3 px-3">Fecha</th>
+                    <th class="py-3 px-4 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-news-table-body" class="divide-y divide-[#171b26]">
+                  <tr><td colspan="5" class="py-8 text-center text-slate-500">Cargando noticias...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: EQUIPOS -->
+        <div id="tab-teams-content" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h3 class="text-base font-bold text-white">Gestión de Equipos de LaLiga</h3>
+              <p class="text-xs text-slate-400">Fuente de verdad para partidos, resultados y clasificación</p>
+            </div>
+            <button id="btn-show-add-team" class="btn-neon text-xs py-2 px-3.5 flex items-center gap-1.5 shadow-neon-sm">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Añadir Equipo</span>
+            </button>
+          </div>
+
+          <!-- Add / Edit Team Form Drawer -->
+          <div id="team-form-box" class="hidden fresh-card p-5 border-[#232838] bg-[#0c0e17] space-y-4">
+            <h4 id="team-form-title" class="text-sm font-bold text-white uppercase tracking-wider">Añadir Nuevo Equipo</h4>
+            <form id="admin-team-form" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <input type="hidden" id="team-id" />
+              <div class="space-y-1">
+                <label class="block text-[10px] font-bold uppercase text-slate-400">Nombre del Equipo *</label>
+                <input type="text" id="team-name" required placeholder="Ej. FC Barcelona" class="w-full bg-[#121622] border border-[#232838] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-neon" />
+              </div>
+              <div class="space-y-1">
+                <label class="block text-[10px] font-bold uppercase text-slate-400">Nombre Corto / Siglas</label>
+                <input type="text" id="team-short-name" placeholder="Ej. FCB" class="w-full bg-[#121622] border border-[#232838] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-neon" />
+              </div>
+              <div class="space-y-1">
+                <label class="block text-[10px] font-bold uppercase text-slate-400">URL del Escudo Real</label>
+                <input type="url" id="team-shield" placeholder="Ej. https://domain.com/escudo.png" class="w-full bg-[#121622] border border-[#232838] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-neon" />
+              </div>
+              <div class="sm:col-span-3 flex justify-end gap-2 pt-2 border-t border-[#171b26]">
+                <button type="button" id="team-cancel" class="btn-secondary text-xs py-1.5 px-3">Cancelar</button>
+                <button type="submit" class="btn-neon text-xs py-1.5 px-4 shadow-neon-sm">Guardar Equipo</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Search & Filter Controls -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <div class="flex-1 relative">
+              <input type="text" id="team-search" placeholder="Buscar equipo por nombre o id..." class="w-full bg-[#0c0e17] border border-[#232838] rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none focus:border-neon" />
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <select id="team-sort-select" class="bg-[#0c0e17] border border-[#232838] rounded-xl px-4 py-2.5 text-xs text-white font-bold focus:outline-none focus:border-neon">
+              <option value="name-asc">Ordenar: Alfabético (A - Z)</option>
+              <option value="name-desc">Ordenar: Alfabético (Z - A)</option>
+              <option value="created-desc">Ordenar: Reciente primero</option>
+            </select>
+          </div>
+
+          <!-- Teams Grid/List -->
+          <div class="fresh-card border-[#232838] overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-[#232838] bg-[#0c0e17] text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    <th class="py-3.5 px-4 text-center w-16">Escudo</th>
+                    <th class="py-3.5 px-4">Nombre Oficial</th>
+                    <th class="py-3.5 px-4 w-32">Nombre Corto</th>
+                    <th class="py-3.5 px-4 w-64">ID / Referencia</th>
+                    <th class="py-3.5 px-4 w-44">Fecha Creación</th>
+                    <th class="py-3.5 px-4 text-center w-24">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-teams-table-body" class="divide-y divide-[#171b26] text-xs">
+                  <tr>
+                    <td colspan="6" class="py-12 text-center text-slate-500 font-medium">Cargando lista de equipos...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. TAB: RESULTADOS -->
+        <div id="tab-matches-content" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <h3 class="text-base font-bold text-white">Gestión de Partidos de LaLiga</h3>
+            <div class="flex items-center gap-2">
+              <button id="btn-toggle-import-jornada" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span>Añadir Jornada (Texto ChatGPT)</span>
+              </button>
+              <button id="btn-show-create-match" class="btn-neon text-xs py-2 px-3">+ Nuevo Partido</button>
+            </div>
+          </div>
+
+          <!-- ChatGPT Import Section (Collapsible) -->
+          <div id="chatgpt-import-box" class="hidden fresh-card p-6 space-y-4 border-neon/50 bg-[#0d1017]">
+            <div>
+              <h4 class="text-sm font-bold text-white">Importar Partidos de Jornada mediante Búsqueda Web de ChatGPT</h4>
+              <p class="text-xs text-slate-400">Indica la temporada y la jornada para generar automáticamente el prompt de búsqueda web para ChatGPT.</p>
+            </div>
+
+            <!-- Configuration Inputs -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 bg-[#0a0c12] rounded-xl border border-[#232838]">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Temporada</label>
+                <input type="text" id="import-season-input" value="2026/2027" class="fresh-input text-xs" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Jornada</label>
+                <input type="number" id="import-matchday-input" min="1" max="38" value="7" class="fresh-input text-xs" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Competición</label>
+                <input type="text" id="import-competition-input" value="LaLiga" class="fresh-input text-xs" />
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="btn-generate-chatgpt-search" class="btn-neon text-xs py-2 px-4 font-bold flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <span>Generar búsqueda para ChatGPT</span>
+              </button>
+            </div>
+
+            <!-- Prompt display container (hidden until generated) -->
+            <div id="chatgpt-prompt-display" class="hidden p-3 bg-[#08090c] rounded-xl border border-[#232838] space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold text-neon">
+                <span>Prompt generado para ChatGPT:</span>
+                <button id="btn-copy-actual-prompt" class="btn-secondary text-xs py-1.5 px-3">Copiar prompt</button>
+              </div>
+              <pre id="chatgpt-prompt-text" class="text-[11px] text-slate-300 bg-[#040507] p-3 rounded-lg overflow-x-auto whitespace-pre-wrap font-mono"></pre>
+            </div>
+
+            <!-- Textarea for pasting result -->
+            <div class="space-y-2 pt-2 border-t border-[#232838]">
+              <label class="block text-xs font-semibold text-slate-300">Pegar resultado de ChatGPT:</label>
+              <textarea id="chatgpt-matchday-textarea" rows="8" placeholder="Pega aquí el resultado estructurado devuelto por ChatGPT tras su búsqueda en Internet..." class="fresh-input text-xs font-mono"></textarea>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <button id="btn-clear-chatgpt" class="btn-secondary text-xs py-1.5 px-3">Limpiar</button>
+              <button id="btn-analyze-matchday" class="btn-neon text-xs py-2 px-4 flex items-center gap-1.5">
+                <span>Analizar partidos</span>
+                <svg class="w-3.5 h-3.5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </div>
+
+            <!-- Preview Box (Hidden until analyzed) -->
+            <div id="matchday-preview-box" class="hidden space-y-4 pt-4 border-t border-[#232838]">
+              <div id="matchday-preview-summary" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-[#121622] rounded-xl border border-[#232838]">
+                <!-- Summary inserted dynamically -->
+              </div>
+
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="matchday-update-existing" class="rounded border-slate-700 text-neon" />
+                <label for="matchday-update-existing" class="text-xs text-slate-300">Actualizar partidos existentes si ya están guardados</label>
+              </div>
+
+              <div class="overflow-x-auto rounded-xl border border-[#232838]">
+                <table class="w-full text-left text-xs">
+                  <thead>
+                    <tr class="bg-[#090b10] border-b border-[#232838] text-slate-400 font-bold uppercase text-[10px]">
+                      <th class="py-2.5 px-3">Jor</th>
+                      <th class="py-2.5 px-3">Fecha / Hora</th>
+                      <th class="py-2.5 px-3">Local</th>
+                      <th class="py-2.5 px-3">Visitante</th>
+                      <th class="py-2.5 px-3">Estadio</th>
+                      <th class="py-2.5 px-3">Estado</th>
+                      <th class="py-2.5 px-3">Resultado</th>
+                      <th class="py-2.5 px-3">Validación</th>
+                    </tr>
+                  </thead>
+                  <tbody id="matchday-preview-tbody" class="divide-y divide-[#171b26]">
+                    <!-- Preview rows -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="flex justify-end gap-2 pt-2">
+                <button id="btn-cancel-preview" class="btn-secondary text-xs">Cancelar</button>
+                <button id="btn-save-matchday" class="btn-neon text-xs py-2 px-5 font-bold">Guardar jornada en Supabase</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Match Form -->
+          <div id="match-form-box" class="hidden fresh-card p-5 space-y-4 border-neon/40">
+            <h4 class="text-sm font-bold text-white" id="match-form-title">Registrar / Editar Partido</h4>
+            <form id="admin-match-form" class="space-y-4">
+              <input type="hidden" id="edit-match-id" />
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Temporada</label>
+                  <input type="text" id="match-form-season" value="2026/2027" required class="fresh-input text-xs" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Jornada (1-38)</label>
+                  <input type="number" id="match-form-jornada" min="1" max="38" value="1" required class="fresh-input text-xs" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Fecha y Hora</label>
+                  <input type="datetime-local" id="match-form-date" required class="fresh-input text-xs" />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Estado</label>
+                  <select id="match-form-status" class="fresh-input text-xs">
+                    <option value="scheduled">Programado</option>
+                    <option value="live">En Vivo</option>
+                    <option value="finished">Finalizado</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Estadio</label>
+                <input type="text" id="match-form-stadium" placeholder="Nombre del estadio (ej: Spotify Camp Nou)" class="fresh-input text-xs" />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="space-y-2 p-3 bg-[#0a0c12] rounded-xl border border-[#232838]">
+                  <label class="block text-xs font-bold text-neon">Equipo Local</label>
+                  <select id="match-form-home-team" required class="fresh-input text-xs">
+                    <option value="">Seleccionar equipo local...</option>
+                  </select>
+                  <input type="hidden" id="match-form-home-shield" />
+                  <input type="number" min="0" id="match-form-home-score" placeholder="Goles Local (si ha finalizado)" class="fresh-input text-xs" />
+                </div>
+
+                <div class="space-y-2 p-3 bg-[#0a0c12] rounded-xl border border-[#232838]">
+                  <label class="block text-xs font-bold text-neon">Equipo Visitante</label>
+                  <select id="match-form-away-team" required class="fresh-input text-xs">
+                    <option value="">Seleccionar equipo visitante...</option>
+                  </select>
+                  <input type="hidden" id="match-form-away-shield" />
+                  <input type="number" min="0" id="match-form-away-score" placeholder="Goles Visitante (si ha finalizado)" class="fresh-input text-xs" />
+                </div>
+              </div>
+
+              <div class="flex justify-end gap-2">
+                <button type="button" id="match-form-cancel" class="btn-secondary text-xs">Cancelar</button>
+                <button type="submit" class="btn-neon text-xs">Guardar Partido</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Matches Filters & List -->
+          <div class="fresh-card p-4 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Temporada</label>
+                <select id="admin-filter-season" class="fresh-input text-xs">
+                  <option value="all">Todas las temporadas</option>
+                  <option value="2026/2027" selected>2026/2027</option>
+                  <option value="2025/2026">2025/2026</option>
+                  <option value="2024/2025">2024/2025</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Jornada</label>
+                <select id="admin-filter-matchday" class="fresh-input text-xs">
+                  <option value="all">Todas las jornadas</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Estado</label>
+                <select id="admin-filter-status" class="fresh-input text-xs">
+                  <option value="all">Todos los estados</option>
+                  <option value="scheduled">Programados</option>
+                  <option value="live">En Vivo</option>
+                  <option value="finished">Finalizados</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Ordenar por</label>
+                <select id="admin-sort-matches" class="fresh-input text-xs">
+                  <option value="date-asc">Fecha (más antiguos primero)</option>
+                  <option value="date-desc">Fecha (más recientes primero)</option>
+                  <option value="matchday-asc">Jornada (ascendente)</option>
+                  <option value="matchday-desc">Jornada (descendente)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Buscar equipo</label>
+                <input type="text" id="admin-search-team" placeholder="Local, visitante, estadio..." class="fresh-input text-xs" />
+              </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-[#232838]">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="bg-[#0a0c12] border-b border-[#232838] text-slate-400 font-bold uppercase text-[10px]">
+                    <th class="py-3 px-3">Jor / Temp</th>
+                    <th class="py-3 px-3">Fecha & Estadio</th>
+                    <th class="py-3 px-4">Encuentro & Marcador Rápido</th>
+                    <th class="py-3 px-3 text-center">Estado</th>
+                    <th class="py-3 px-4 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-matches-table-body" class="divide-y divide-[#171b26]">
+                  <tr><td colspan="5" class="py-8 text-center text-slate-500">Cargando partidos...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. TAB: CLASIFICACIÓN -->
+        <div id="tab-standings-content" class="hidden space-y-6">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+              <h3 class="text-base font-bold text-white">Gestión de Clasificación de LaLiga</h3>
+              <p class="text-xs text-slate-400">Administra los equipos reales en <code class="text-neon">public.standings</code> o recalcula la tabla desde los partidos finalizados.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="flex items-center gap-1.5 bg-[#0e1119] border border-[#232838] rounded-lg px-2.5 py-1">
+                <span class="text-[11px] text-slate-400 font-semibold">Temporada:</span>
+                <select id="standings-season-select" class="bg-transparent text-xs text-white font-bold outline-none border-none cursor-pointer">
+                  <option value="2026/2027" class="bg-[#0a0c12]">2026/2027</option>
+                  <option value="2025/2026" class="bg-[#0a0c12]">2025/2026</option>
+                  <option value="2024/2025" class="bg-[#0a0c12]">2024/2025</option>
+                </select>
+              </div>
+              <button id="btn-recalculate-standings" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1.5" title="Recalcula la clasificación desde todos los partidos finalizados">
+                <svg class="w-3.5 h-3.5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <span>Recalcular clasificación</span>
+              </button>
+              <button id="btn-check-consistency" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1.5" title="Verifica si hay incoherencias en estadísticas o puntos">
+                <svg class="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Comprobar clasificación</span>
+              </button>
+              <button id="btn-toggle-import-standings" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span>Importar Clasificación (Texto)</span>
+              </button>
+              <button id="btn-show-add-team" class="btn-neon text-xs py-2 px-3">+ Añadir Equipo</button>
+              <button id="btn-save-all-standings" class="btn-secondary text-xs py-2 px-3 hidden">Guardar Todo</button>
+            </div>
+          </div>
+
+          <!-- Consistency Check Banner / Modal -->
+          <div id="standings-consistency-box" class="hidden fresh-card p-5 space-y-3 border-yellow-500/40 bg-[#10131d]">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                <span class="text-yellow-400 font-black">🔍</span>
+                <span>Resultado de la Comprobación de Clasificación</span>
+              </h4>
+              <button id="btn-close-consistency-box" class="text-xs text-slate-400 hover:text-white">&times; Cerrar</button>
+            </div>
+            <div id="standings-consistency-content" class="text-xs text-slate-300 space-y-2"></div>
+          </div>
+
+          <!-- Add / Edit Team Form (Collapsible) -->
+          <div id="standings-team-form-box" class="hidden fresh-card p-5 space-y-4 border-neon/40 bg-[#0e111a]">
+            <h4 class="text-sm font-bold text-white" id="standings-team-form-title">Añadir Equipo a la Clasificación</h4>
+            <form id="admin-standing-team-form" class="space-y-4">
+              <input type="hidden" id="standing-team-id" />
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Posición (#)</label>
+                  <input type="number" min="1" id="standing-team-position" required class="fresh-input text-xs font-bold" />
+                </div>
+                <div class="sm:col-span-3">
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Seleccionar Equipo</label>
+                  <select id="standing-team-name" required class="fresh-input text-xs font-bold">
+                    <option value="">Selecciona equipo de LaLiga...</option>
+                  </select>
+                  <input type="hidden" id="standing-team-shield" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-7 gap-2.5 p-3 bg-[#080a0f] rounded-xl border border-[#232838]">
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1 text-center">PJ</label>
+                  <input type="number" min="0" id="standing-team-pj" value="0" required class="fresh-input text-xs text-center" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1 text-center">PG</label>
+                  <input type="number" min="0" id="standing-team-pg" value="0" required class="fresh-input text-xs text-center" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1 text-center">PE</label>
+                  <input type="number" min="0" id="standing-team-pe" value="0" required class="fresh-input text-xs text-center" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1 text-center">PP</label>
+                  <input type="number" min="0" id="standing-team-pp" value="0" required class="fresh-input text-xs text-center" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1 text-center">GF</label>
+                  <input type="number" min="0" id="standing-team-gf" value="0" required class="fresh-input text-xs text-center" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-slate-400 mb-1 text-center">GC</label>
+                  <input type="number" min="0" id="standing-team-gc" value="0" required class="fresh-input text-xs text-center" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-neon mb-1 text-center">DG (GF-GC)</label>
+                  <input type="number" id="standing-team-dg" value="0" class="fresh-input text-xs text-center font-bold text-neon" />
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <label class="text-xs font-bold text-neon">Puntos:</label>
+                  <input type="number" min="0" id="standing-team-points" value="0" required class="fresh-input text-xs text-center font-black w-20 text-neon" />
+                </div>
+                <div class="flex gap-2">
+                  <button type="button" id="standing-team-cancel" class="btn-secondary text-xs">Cancelar</button>
+                  <button type="submit" class="btn-neon text-xs">Guardar Equipo en Supabase</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Structured Text Import Box for Standings (Collapsible) -->
+          <div id="standings-import-box" class="hidden fresh-card p-5 space-y-4 border-neon/50 bg-[#0d1017]">
+            <div>
+              <h4 class="text-sm font-bold text-white">Importar Clasificación mediante Texto Estructurado</h4>
+              <p class="text-xs text-slate-400">Pega los datos de la clasificación en formato estructurado para analizarlos y previsualizarlos antes de guardar.</p>
+            </div>
+
+            <div class="p-3 bg-[#08090d] rounded-xl border border-[#232838] space-y-1 text-[11px] text-slate-400">
+              <span class="font-bold text-neon">Formato soportado:</span>
+              <pre class="font-mono text-slate-300">POSICIÓN: 1
+EQUIPO: FC Barcelona
+PJ: 7
+PG: 6
+PE: 1
+PP: 0
+GF: 18
+GC: 5
+DG: 13
+PUNTOS: 19
+ESCUDO:</pre>
+            </div>
+
+            <textarea id="standings-import-textarea" rows="8" placeholder="Pega aquí los bloques de clasificación..." class="fresh-input text-xs font-mono"></textarea>
+
+            <div class="flex justify-between items-center">
+              <button id="btn-clear-standings-import" class="btn-secondary text-xs py-1.5 px-3">Limpiar</button>
+              <button id="btn-analyze-standings-import" class="btn-neon text-xs py-2 px-4 font-bold flex items-center gap-1.5">
+                <span>Analizar clasificación</span>
+                <svg class="w-3.5 h-3.5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </div>
+
+            <!-- Preview Box -->
+            <div id="standings-import-preview-box" class="hidden space-y-3 pt-3 border-t border-[#232838]">
+              <div id="standings-import-preview-summary" class="text-xs font-bold text-neon"></div>
+              <div class="overflow-x-auto rounded-xl border border-[#232838]">
+                <table class="w-full text-left text-xs">
+                  <thead>
+                    <tr class="bg-[#090b10] border-b border-[#232838] text-slate-400 font-bold uppercase text-[10px]">
+                      <th class="py-2.5 px-2 text-center w-12">Pos</th>
+                      <th class="py-2.5 px-3">Equipo</th>
+                      <th class="py-2.5 px-2 text-center">PJ</th>
+                      <th class="py-2.5 px-2 text-center">PG</th>
+                      <th class="py-2.5 px-2 text-center">PE</th>
+                      <th class="py-2.5 px-2 text-center">PP</th>
+                      <th class="py-2.5 px-2 text-center">GF</th>
+                      <th class="py-2.5 px-2 text-center">GC</th>
+                      <th class="py-2.5 px-2 text-center">DG</th>
+                      <th class="py-2.5 px-3 text-right font-black text-neon">PTS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="standings-import-preview-tbody" class="divide-y divide-[#171b26]"></tbody>
+                </table>
+              </div>
+              <div class="flex justify-end gap-2 pt-2">
+                <button id="btn-cancel-standings-import-preview" class="btn-secondary text-xs">Cancelar</button>
+                <button id="btn-confirm-save-imported-standings" class="btn-neon text-xs py-2 px-5 font-bold">Guardar clasificación en Supabase</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Standings Table -->
+          <div class="fresh-card p-4 overflow-x-auto">
+            <table class="w-full text-left text-xs" id="admin-standings-table">
+              <thead>
+                <tr class="bg-[#0a0c12] border-b border-[#232838] text-slate-400 font-bold uppercase text-[10px]">
+                  <th class="py-2.5 px-2 text-center w-12">Pos</th>
+                  <th class="py-2.5 px-3">Equipo</th>
+                  <th class="py-2.5 px-2 text-center">PJ</th>
+                  <th class="py-2.5 px-2 text-center">PG</th>
+                  <th class="py-2.5 px-2 text-center">PE</th>
+                  <th class="py-2.5 px-2 text-center">PP</th>
+                  <th class="py-2.5 px-2 text-center">GF</th>
+                  <th class="py-2.5 px-2 text-center">GC</th>
+                  <th class="py-2.5 px-2 text-center">DG</th>
+                  <th class="py-2.5 px-3 text-center font-black text-neon">PTS</th>
+                  <th class="py-2.5 px-4 text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="admin-standings-body" class="divide-y divide-[#171b26]">
+                <tr><td colspan="11" class="py-8 text-center text-slate-500">Cargando clasificación...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4. TAB: USUARIOS REALES SUPABASE -->
+        <div id="tab-users-content" class="hidden space-y-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-base font-bold text-white">Gestión de Usuarios</h3>
+              <p class="text-xs text-slate-400">Perfiles reales sincronizados desde <code class="text-neon">public.profiles</code> de Supabase.</p>
+            </div>
+            <button id="btn-refresh-users" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-neon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Actualizar lista</span>
+            </button>
+          </div>
+
+          <div class="fresh-card overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="bg-[#0a0c12] border-b border-[#232838] text-slate-400 font-bold uppercase text-[10px]">
+                    <th class="py-3 px-4">Usuario</th>
+                    <th class="py-3 px-4">Email</th>
+                    <th class="py-3 px-3 text-center">Rol</th>
+                    <th class="py-3 px-3 text-right">Puntos</th>
+                    <th class="py-3 px-4 text-right">Fecha Registro</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-table-body" class="divide-y divide-[#171b26]">
+                  <tr><td colspan="5" class="py-8 text-center text-slate-500">Cargando usuarios...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. TAB: ENCUESTAS -->
+        <div id="tab-polls-content" class="hidden space-y-6">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-white">Gestión de Encuestas</h3>
+            <button id="btn-show-create-poll" class="btn-neon text-xs py-2 px-3">+ Nueva Encuesta</button>
+          </div>
+
+          <!-- Create Poll Box -->
+          <div id="poll-form-box" class="hidden fresh-card p-5 space-y-4 border-neon/40">
+            <h4 class="text-sm font-bold text-white">Crear Nueva Encuesta</h4>
+            <form id="admin-poll-form" class="space-y-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Pregunta</label>
+                <input type="text" id="poll-form-question" required placeholder="Ej: ¿Quién ganará ElClásico?" class="fresh-input text-xs" />
+              </div>
+
+              <div class="space-y-2">
+                <label class="block text-xs font-semibold text-slate-300">Opciones de respuesta</label>
+                <input type="text" class="fresh-input text-xs poll-opt-input" required placeholder="Opción 1" />
+                <input type="text" class="fresh-input text-xs poll-opt-input" required placeholder="Opción 2" />
+                <input type="text" class="fresh-input text-xs poll-opt-input" placeholder="Opción 3 (opcional)" />
+                <input type="text" class="fresh-input text-xs poll-opt-input" placeholder="Opción 4 (opcional)" />
+              </div>
+
+              <div class="flex justify-end gap-2">
+                <button type="button" id="poll-form-cancel" class="btn-secondary text-xs">Cancelar</button>
+                <button type="submit" class="btn-neon text-xs">Crear Encuesta</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Polls List -->
+          <div id="admin-polls-list" class="space-y-3">
+            <div class="py-8 text-center text-xs text-slate-500">Cargando encuestas...</div>
+          </div>
+        </div>
+
+        <!-- 5. TAB: DEBATES -->
+        <div id="tab-debates-content" class="hidden space-y-6">
+          <h3 class="text-base font-bold text-white">Moderación de Debates</h3>
+          <div id="admin-debates-list" class="space-y-3">
+            <div class="py-8 text-center text-xs text-slate-500">Cargando debates...</div>
+          </div>
+        </div>
+
+        <!-- 6. TAB: COMENTARIOS -->
+        <div id="tab-comments-content" class="hidden space-y-6">
+          <h3 class="text-base font-bold text-white">Moderación de Comentarios</h3>
+          <div id="admin-comments-list" class="space-y-3">
+            <div class="py-8 text-center text-xs text-slate-500">Cargando comentarios...</div>
+          </div>
+        </div>
+
+        <!-- 7. TAB: PORRAS -->
+        <div id="tab-porras-content" class="hidden space-y-6">
+          <h3 class="text-base font-bold text-white">Predicciones & Porras</h3>
+          <p class="text-xs text-slate-400">Cuando un partido finaliza y guardas el resultado en "Resultados", el sistema premia con 3 puntos al acierto exacto y 1 punto al acierto del ganador/empate.</p>
+          <div id="admin-porras-list" class="space-y-3">
+            <div class="py-8 text-center text-xs text-slate-500">Cargando predicciones...</div>
+          </div>
+        </div>
+
+        <!-- 8. TAB: TRIVIAL -->
+        <div id="tab-trivia-content" class="hidden space-y-6">
+          <div class="flex justify-between items-center">
+            <h3 class="text-base font-bold text-white">Gestión de Preguntas de Trivial</h3>
+            <button id="btn-show-create-trivia" class="btn-neon text-xs py-2 px-3">+ Nueva Pregunta</button>
+          </div>
+
+          <!-- Form create trivia -->
+          <div id="trivia-form-box" class="hidden fresh-card p-5 space-y-4 border-neon/40">
+            <h4 class="text-sm font-bold text-white">Crear Pregunta de Trivial</h4>
+            <form id="admin-trivia-form" class="space-y-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Pregunta</label>
+                <input type="text" id="trivia-q-input" required class="fresh-input text-xs" />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input type="text" id="trivia-opt-a" required placeholder="Opción A" class="fresh-input text-xs" />
+                <input type="text" id="trivia-opt-b" required placeholder="Opción B" class="fresh-input text-xs" />
+                <input type="text" id="trivia-opt-c" placeholder="Opción C" class="fresh-input text-xs" />
+                <input type="text" id="trivia-opt-d" placeholder="Opción D" class="fresh-input text-xs" />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Opción Correcta</label>
+                  <select id="trivia-correct-select" class="fresh-input text-xs">
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                    <option value="d">D</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 mb-1">Puntos otorgados</label>
+                  <input type="number" id="trivia-points" value="10" min="1" class="fresh-input text-xs" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Explicación o dato histórico (opcional)</label>
+                <input type="text" id="trivia-explanation" class="fresh-input text-xs" />
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="trivia-form-cancel" class="btn-secondary text-xs">Cancelar</button>
+                <button type="submit" class="btn-neon text-xs">Guardar Pregunta</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Trivia list -->
+          <div id="admin-trivia-list" class="space-y-3">
+            <div class="py-8 text-center text-xs text-slate-500">Cargando preguntas de trivial...</div>
+          </div>
+        </div>
+
+        <!-- 9. TAB: MEMES -->
+        <div id="tab-memes-content" class="hidden space-y-6">
+          <h3 class="text-base font-bold text-white">Moderación de Memes</h3>
+          <div id="admin-memes-list" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="col-span-full py-8 text-center text-xs text-slate-500">Cargando memes...</div>
+          </div>
+        </div>
+
+        <!-- 10. TAB: SUPABASE CONFIG & SCHEMA -->
+        <div id="tab-supabase-content" class="hidden space-y-6">
+          <div class="fresh-card p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-bold text-white">Conexión con Supabase</h3>
+                <p class="text-xs text-slate-400 mt-1">Configura las credenciales de tu proyecto de Supabase para sincronizar datos reales en la nube.</p>
+              </div>
+              <span id="supabase-status-badge" class="px-2.5 py-1 rounded text-xs font-bold bg-slate-800 text-slate-300">Comprobando...</span>
+            </div>
+
+            <form id="supabase-config-form" class="space-y-4 pt-2 border-t border-[#1e2333]">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Supabase Project URL</label>
+                <input type="url" id="config-supabase-url" placeholder="https://xyzcompany.supabase.co" class="fresh-input text-xs" />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Supabase Anon / Public Key</label>
+                <input type="password" id="config-supabase-key" placeholder="eyJhbGciOiJIUzI1NiIsIn..." class="fresh-input text-xs" />
+              </div>
+              <div class="flex justify-end gap-2">
+                <button type="button" id="clear-supabase-config-btn" class="btn-secondary text-xs">Limpiar Configuración</button>
+                <button type="submit" class="btn-neon text-xs">Guardar y Conectar</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- SQL Schema viewer / copy button -->
+          <div class="fresh-card p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="text-sm font-bold text-white">Script SQL de Supabase (schema.sql)</h4>
+                <p class="text-xs text-slate-400">Copia este script y pégalo en el SQL Editor de tu panel de Supabase para crear todas las tablas, relaciones y políticas RLS.</p>
+              </div>
+              <button id="copy-sql-btn" class="btn-neon text-xs py-2 px-3 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <span>Copiar SQL</span>
+              </button>
+            </div>
+
+            <pre class="bg-[#090b10] border border-[#232838] rounded-xl p-4 text-[11px] font-mono text-slate-300 overflow-x-auto max-h-96 leading-relaxed" id="sql-preview-box">Cargando schema.sql...</pre>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="/src/js/pages/admin.js"></script>
+  </body>
+</html>

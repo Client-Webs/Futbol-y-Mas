@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Porras LaLiga | Fresh Football</title>
+    <meta name="description" content="Adivina el resultado exacto de los partidos de LaLiga, compite con la comunidad y lidera el ranking de puntos." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#08090c] text-slate-100 flex flex-col min-h-screen">
+    <header></header>
+
+    <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+      <!-- Title & Explanation -->
+      <div class="border-b border-[#232838] pb-6 space-y-2">
+        <div class="text-[11px] font-bold text-neon uppercase tracking-wider">Pronósticos & Ranking</div>
+        <h1 class="text-2xl sm:text-3xl font-black text-white">Porras de LaLiga</h1>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-2xl leading-relaxed">
+          Predice el marcador exacto de cada partido antes de que empiece el pitido inicial. Si aciertas el resultado exacto sumas <strong>3 puntos</strong>; si aciertas el ganador o empate, sumas <strong>1 punto</strong>.
+        </p>
+      </div>
+
+      <!-- Navigation Tabs: Partidos Abiertos / Mis Predicciones / Ranking -->
+      <div class="flex items-center gap-2 border-b border-[#232838] pb-1" id="porras-tabs">
+        <button data-tab="matches" class="px-4 py-2 text-xs font-bold border-b-2 border-neon text-neon">Partidos Abiertos</button>
+        <button data-tab="my-predictions" class="px-4 py-2 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-white">Mis Porras</button>
+        <button data-tab="ranking" class="px-4 py-2 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-white">Ranking de Usuarios</button>
+      </div>
+
+      <!-- Tab 1: Available Matches for Predictions -->
+      <div id="tab-matches" class="space-y-4">
+        <div class="py-12 text-center text-xs text-slate-500">Cargando partidos disponibles...</div>
+      </div>
+
+      <!-- Tab 2: User's Predictions History -->
+      <div id="tab-my-predictions" class="hidden space-y-4">
+        <div class="py-12 text-center text-xs text-slate-500">Cargando tus predicciones...</div>
+      </div>
+
+      <!-- Tab 3: Leaderboard / Ranking -->
+      <div id="tab-ranking" class="hidden space-y-4">
+        <div class="py-12 text-center text-xs text-slate-500">Cargando ranking de la comunidad...</div>
+      </div>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="/src/js/pages/porras.js"></script>
+  </body>
+</html>

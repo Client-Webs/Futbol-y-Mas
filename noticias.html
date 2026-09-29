@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noticias | Fresh Football</title>
+    <meta name="description" content="Toda la actualidad, fichajes, rumores y exclusivas de LaLiga en Fresh Football." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#08090c] text-slate-100 flex flex-col min-h-screen">
+    <header></header>
+
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+      <!-- Title & Filters -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#232838] pb-6">
+        <div>
+          <div class="text-[11px] font-bold text-neon uppercase tracking-wider">Diario Deportivo</div>
+          <h1 class="text-2xl sm:text-3xl font-black text-white">Noticias de LaLiga</h1>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="w-full md:w-72">
+          <input 
+            type="text" 
+            id="news-search" 
+            placeholder="Buscar noticias, jugadores..." 
+            class="fresh-input text-xs"
+          />
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="category-filters">
+        <button data-cat="all" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-neon text-black">Todas</button>
+        <button data-cat="Noticias" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-[#12151e] border border-[#232838] text-slate-300 hover:text-white">Noticias</button>
+        <button data-cat="Fichajes" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-[#12151e] border border-[#232838] text-slate-300 hover:text-white">Fichajes</button>
+        <button data-cat="Rumores" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-[#12151e] border border-[#232838] text-slate-300 hover:text-white">Rumores</button>
+        <button data-cat="LaLiga" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-[#12151e] border border-[#232838] text-slate-300 hover:text-white">LaLiga</button>
+        <button data-cat="Otros" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-[#12151e] border border-[#232838] text-slate-300 hover:text-white">Otros</button>
+      </div>
+
+      <!-- News Grid -->
+      <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full py-16 text-center text-xs text-slate-500">Cargando noticias...</div>
+      </div>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="/src/js/pages/noticias.js"></script>
+  </body>
+</html>

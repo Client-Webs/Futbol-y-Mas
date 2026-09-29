@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noticia | Fresh Football</title>
+    <meta name="description" content="Detalle de noticia en Fresh Football LaLiga." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#08090c] text-slate-100 flex flex-col min-h-screen">
+    <header></header>
+
+    <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-10">
+      <!-- Back button -->
+      <div>
+        <a href="/noticias.html" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-neon transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          <span>Volver a Noticias</span>
+        </a>
+      </div>
+
+      <!-- Article Header & Body -->
+      <article id="article-container" class="space-y-6">
+        <div class="py-12 text-center text-xs text-slate-500">Cargando noticia...</div>
+      </article>
+
+      <!-- Comments Section -->
+      <section class="border-t border-[#232838] pt-8 space-y-6" id="comments-section">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>Comentarios</span>
+            <span id="comments-count" class="text-xs text-slate-400 font-semibold">(0)</span>
+          </h3>
+        </div>
+
+        <!-- Add Comment Form -->
+        <div id="comment-form-container" class="fresh-card p-4">
+          <!-- Populated by JS: Logged in textarea or Login prompt -->
+        </div>
+
+        <!-- Comments List -->
+        <div id="comments-list" class="space-y-4">
+          <div class="py-4 text-center text-xs text-slate-500">Cargando comentarios...</div>
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="/src/js/pages/noticia-detail.js"></script>
+  </body>
+</html>

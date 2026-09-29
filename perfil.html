@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Perfil | Fresh Football</title>
+    <meta name="description" content="Gestiona tu cuenta, apodo, avatar y puntos en Fresh Football." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#08090c] text-slate-100 flex flex-col min-h-screen">
+    <header></header>
+
+    <main class="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+      <div class="border-b border-[#232838] pb-6 flex items-center justify-between">
+        <div>
+          <div class="text-[11px] font-bold text-neon uppercase tracking-wider">Tu Cuenta</div>
+          <h1 class="text-2xl sm:text-3xl font-black text-white">Perfil de Usuario</h1>
+        </div>
+        <button id="logout-btn" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1.5 text-red-400 border-red-500/30 hover:bg-red-500/10">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+
+      <!-- Profile Container -->
+      <div id="profile-container" class="space-y-6">
+        <div class="py-12 text-center text-xs text-slate-500">Cargando perfil...</div>
+      </div>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="/src/js/pages/perfil.js"></script>
+  </body>
+</html>

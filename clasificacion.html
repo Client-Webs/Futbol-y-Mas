@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clasificación LaLiga | Fresh Football</title>
+    <meta name="description" content="Tabla de clasificación oficial de LaLiga en Fresh Football con puntos, goles, victorias y estadísticas." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#08090c] text-slate-100 flex flex-col min-h-screen">
+    <header></header>
+
+    <main class="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+      <!-- Title & Legend -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#232838] pb-6">
+        <div>
+          <div class="text-[11px] font-bold text-neon uppercase tracking-wider">Temporada Oficial</div>
+          <h1 class="text-2xl sm:text-3xl font-black text-white">Clasificación de LaLiga</h1>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex flex-wrap items-center gap-3 text-[11px]">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Champions League (1-4)</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-500"></span> Europa League (5-6)</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Conference (7)</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Descenso (18-20)</span>
+        </div>
+      </div>
+
+      <!-- Standings Table Container -->
+      <div class="fresh-card overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-[#0a0c12] border-b border-[#232838] text-slate-400 font-bold uppercase text-[11px]">
+                <th class="py-3 px-3 sm:px-4 text-center w-12">Pos</th>
+                <th class="py-3 px-3 sm:px-4">Club</th>
+                <th class="py-3 px-2 sm:px-3 text-center">PJ</th>
+                <th class="py-3 px-2 sm:px-3 text-center">PG</th>
+                <th class="py-3 px-2 sm:px-3 text-center">PE</th>
+                <th class="py-3 px-2 sm:px-3 text-center">PP</th>
+                <th class="py-3 px-2 sm:px-3 text-center hidden md:table-cell">GF</th>
+                <th class="py-3 px-2 sm:px-3 text-center hidden md:table-cell">GC</th>
+                <th class="py-3 px-2 sm:px-3 text-center">DG</th>
+                <th class="py-3 px-3 sm:px-4 text-right font-black text-neon">PTS</th>
+              </tr>
+            </thead>
+            <tbody id="standings-body" class="divide-y divide-[#171b26]">
+              <tr>
+                <td colspan="10" class="py-12 text-center text-xs text-slate-500">Cargando clasificación de LaLiga...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="/src/js/pages/clasificacion.js"></script>
+  </body>
+</html>

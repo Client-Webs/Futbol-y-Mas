@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trivial LaLiga | Fresh Football</title>
+    <meta name="description" content="Demuestra tus conocimientos futboleros en el trivial oficial de Fresh Football sobre LaLiga." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#08090c] text-slate-100 flex flex-col min-h-screen">
+    <header></header>
+
+    <main class="flex-1 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+      <div class="border-b border-[#232838] pb-6 flex items-center justify-between">
+        <div>
+          <div class="text-[11px] font-bold text-neon uppercase tracking-wider">Juego de Preguntas</div>
+          <h1 class="text-2xl sm:text-3xl font-black text-white">Trivial de LaLiga</h1>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">¿Cuánto sabes sobre la historia, jugadores y récords del fútbol español?</p>
+        </div>
+        <div id="trivia-stats-summary" class="hidden text-right">
+          <span class="block text-[10px] text-slate-500 uppercase">Puntos Ronda</span>
+          <span id="current-score" class="text-xl font-black text-neon tabular-nums">0 pts</span>
+        </div>
+      </div>
+
+      <!-- Trivia Container -->
+      <div id="trivia-container" class="space-y-6">
+        <div class="py-12 text-center text-xs text-slate-500">Cargando preguntas de trivial...</div>
+      </div>
+
+      <!-- Leaderboard / Ranking Teaser -->
+      <div id="trivia-leaderboard-box" class="pt-6 border-t border-[#232838] space-y-4">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Mejores Puntuaciones</h3>
+        <div id="trivia-leaderboard" class="space-y-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="/src/js/pages/trivial.js"></script>
+  </body>
+</html>

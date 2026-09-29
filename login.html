@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acceso | Fresh Football</title>
+    <meta name="description" content="Inicia sesión o regístrate en la comunidad Fresh Football LaLiga." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#08090c] text-slate-100 flex flex-col min-h-screen">
+    <header></header>
+
+    <main class="flex-1 flex items-center justify-center px-4 py-12">
+      <div class="w-full max-w-md fresh-card p-6 sm:p-8 space-y-6">
+        <!-- Logo & Header -->
+        <div class="text-center space-y-3">
+          <div class="flex items-center justify-center">
+            <img src="/logo.png" alt="Fresh Football" class="h-20 sm:h-24 w-auto max-w-[220px] object-contain" />
+          </div>
+          <p class="text-xs text-slate-400">Únete a la mayor comunidad de fútbol y LaLiga.</p>
+        </div>
+
+        <!-- Auth Tabs (Iniciar Sesión / Registrarse) -->
+        <div class="flex items-center p-1 bg-[#0b0e14] rounded-xl border border-[#232838]" id="auth-tabs">
+          <button data-mode="login" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all bg-neon text-black">
+            Iniciar Sesión
+          </button>
+          <button data-mode="register" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white">
+            Crear Cuenta
+          </button>
+        </div>
+
+        <!-- Form -->
+        <form id="auth-form" class="space-y-4">
+          <!-- Nickname input (only on register) -->
+          <div id="nickname-group" class="hidden">
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Apodo futbolero</label>
+            <input type="text" id="auth-nickname" placeholder="Tu nombre en la grada" class="fresh-input text-xs" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Correo electrónico</label>
+            <input type="email" id="auth-email" required placeholder="correo@ejemplo.com" class="fresh-input text-xs" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Contraseña</label>
+            <input type="password" id="auth-password" required minlength="6" placeholder="Mínimo 6 caracteres" class="fresh-input text-xs" />
+          </div>
+
+          <button type="submit" id="auth-submit-btn" class="w-full btn-neon text-xs py-3">
+            Iniciar Sesión
+          </button>
+        </form>
+
+        <!-- Password Recovery & Help -->
+        <div class="text-center text-xs text-slate-400 pt-2 border-t border-[#1e2333] space-y-2">
+          <button type="button" id="forgot-password-btn" class="text-slate-400 hover:text-neon transition-colors text-xs">
+            ¿Has olvidado tu contraseña?
+          </button>
+          <div id="recovery-box" class="hidden p-3.5 rounded-xl bg-[#0e1118] border border-[#232838] space-y-2.5 text-left">
+            <p class="text-[11px] text-slate-300">Introduce tu correo electrónico arriba y te enviaremos las instrucciones de recuperación.</p>
+            <button type="button" id="send-recovery-btn" class="btn-secondary text-[11px] py-1.5 px-3 w-full">Enviar enlace de recuperación</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+
+    <script type="module" src="/src/js/pages/login.js"></script>
+  </body>
+</html>

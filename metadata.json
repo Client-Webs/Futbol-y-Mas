@@ -1,0 +1,6 @@
+{
+  "name": "Fresh Football",
+  "description": "Plataforma de fútbol líder en LaLiga: noticias exclusivas, resultados, clasificación en vivo, porras, trivials, debates y memes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
